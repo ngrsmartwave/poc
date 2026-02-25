@@ -4,6 +4,7 @@
 import ballerina/http;
 import ballerina/sql;
 import poc_step4.epfl;
+import ballerina/log;
 
 listener http:Listener ep0 = new (9090, config = {host: "localhost"});
 
@@ -16,10 +17,13 @@ service / on ep0 {
     # + actif - Filtrer par statut actif/inactif. Sans ce paramètre, tous les étudiants sont retournés.
     # + return - Liste retournée avec succès 
     resource function get etudiants(boolean? actif) returns EtudiantResponse[]|error {
-        // Build the WHERE clause based on the actif parameter
+        
+        log:printInfo("GET etudiants");
+
         sql:ParameterizedQuery whereClause = actif is () ? `` : `actif = ${actif}`;
         
         // Retrieve students from the database using the persist client
+        log:printInfo("Query Database");
         stream<epfl:Etudiant, error?> etudiantStream = persistClient->/etudiants(whereClause = whereClause);
         
         // Convert the stream to an array and map to EtudiantResponse
