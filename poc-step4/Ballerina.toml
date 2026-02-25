@@ -1,0 +1,14 @@
+[package]
+org = "nicolasgruszczynska"
+name = "poc_step4"
+version = "0.1.0"
+distribution = "2201.13.1"
+
+[build-options]
+sticky = true
+
+[[platform.java21.dependency]]
+groupId = "io.ballerina.stdlib"
+artifactId = "persist.sql-native"
+version = "1.7.2"
+

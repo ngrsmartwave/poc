@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: API Étudiants
+  version: 1.0.0
+
+paths:
+
+  /etudiants:
+    get:
+      summary: Liste des étudiants
+      parameters:
+        - name: actif
+          in: query
+          required: false
+          description: Filtrer par statut actif/inactif. Sans ce paramètre, tous les étudiants sont retournés.
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Liste retournée avec succès
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EtudiantResponse"
+
+  /etudiants/{id}:
+    get:
+      summary: Détail d'un étudiant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Étudiant trouvé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EtudiantResponse"
+        "404":
+          description: Étudiant introuvable
+
+components:
+  schemas:
+    EtudiantResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        nom:
+          type: string
+        prenom:
+          type: string
+        email:
+          type: string
+        actif:
+          type: boolean
