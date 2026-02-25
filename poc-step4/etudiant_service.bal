@@ -6,12 +6,11 @@ import ballerina/sql;
 import poc_step4.epfl;
 import ballerina/log;
 
-listener http:Listener ep0 = new (9090, config = {host: "localhost"});
 
 // Initialize the persist client from the epfl module
 final epfl:Client persistClient = check new ();
 
-service / on ep0 {
+service /epflapi on new http:Listener(8080) {
     # Liste des étudiants
     #
     # + actif - Filtrer par statut actif/inactif. Sans ce paramètre, tous les étudiants sont retournés.
