@@ -36,7 +36,7 @@ service on ftpListenerCVS {
                 Student[] csvRecords = check csv:parseList(studentArray, {customHeaders: header});
                 log:printInfo(string `Parsed Records  : ${csvRecords.toString()} `);
                 Student csvStudent = csvRecords[0];
-                check functionStudentStep1(csvStudent);
+                check functionStudentStep3(csvStudent);
             } on fail error e {
                 log:printError(string `Error processing student  : ${studentArray.toString()} ${e.toString()} `);
             }
