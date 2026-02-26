@@ -9,3 +9,15 @@ type Student record {|
     string email;
     boolean actif;
 |};
+
+type ProcessingReport record {|
+    int totalCsvRows;
+    int validRows;
+    int invalidRows;
+    int insertions;
+    int updates;
+    int deactivations;
+    int errors;
+    string startTime;
+    string endTime;
+|};
