@@ -1,4 +1,4 @@
-import poc_step_1.epfl;
+import poc_step1.epfl;
 
 function transformCVStoDB(Student csv) returns epfl:EtudiantInsert => {
     id: csv.id,

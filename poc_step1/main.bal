@@ -1,4 +1,4 @@
-//import poc_step_1.epfl;
+//import poc_step1.epfl;
 //import ballerina/constraint;
 
 
@@ -9,13 +9,13 @@ import ballerina/log;
 listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/ec2-user/csv", port = 22, auth = {
 
     credentials: {
-        username: "ec2-user",
+        username: sftpUser,
         password: ""
     },
-    privateKey: {
-        path: "/Users/nicolasgruszczynska/Downloads/gru-keykey.pem"
+    privateKey: {   
+        path: sftpPrivateKeyPath
     }
-}, host = "52.213.30.15", pollingInterval = 1, csvFailSafe = {
+}, host = sftpHost, pollingInterval = 1, csvFailSafe = {
     contentType: "RAW_AND_METADATA"
 }
 );
@@ -27,20 +27,19 @@ service on ftpListenerCVS {
     remote function onFileCsv(string[][] students, ftp:FileInfo fileInfo, ftp:Caller caller) returns error? {
 
         string[] header = ["id", "nom", "prenom", "email", "actif"];
-        log:printInfo(string `==== New File  : ${fileInfo.pathDecoded} ====`);
+        log:printInfo(string `File  : ${fileInfo.pathDecoded} `);
         check caller->rename(fileInfo.pathDecoded,fileInfo.pathDecoded+".bak");
         foreach string[] student in students {
             string[][] studentArray = [student];
-            log:printInfo(string `==== New Student  : ${student.toString()} ====`);
+            log:printInfo(string `CSV Student  : ${student.toString()} `);
             do {
                 Student[] csvRecords = check csv:parseList(studentArray, {customHeaders: header});
-                log:printInfo(string `==== Parsed Records  : ${csvRecords.toString()} ====`);
+                log:printInfo(string `Parsed Records  : ${csvRecords.toString()} `);
                 Student csvStudent = csvRecords[0];
-                check functionStudent(csvStudent);
+                check functionStudentStep1(csvStudent);
             } on fail error e {
-                log:printError(string `==== Error processing student  : ${studentArray.toString()} ${e.toString()} ====`);
+                log:printError(string `Error processing student  : ${studentArray.toString()} ${e.toString()} `);
             }
         }
-        //check caller->delete(fileInfo.pathDecoded+".bak");
     }
 }

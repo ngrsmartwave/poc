@@ -5,7 +5,7 @@
 
 [ballerina]
 dependencies-toml-version = "2"
-distribution-version = "2201.13.1"
+distribution-version = "2201.12.9"
 
 [[package]]
 org = "ballerina"
@@ -38,7 +38,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "data.csv"
-version = "0.10.0"
+version = "0.8.2"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "log"}
@@ -68,7 +68,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "ftp"
-version = "2.17.0"
+version = "2.17.1"
 dependencies = [
 	{org = "ballerina", name = "crypto"},
 	{org = "ballerina", name = "data.csv"},
@@ -136,7 +136,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "log"
-version = "2.17.0"
+version = "2.14.0"
 dependencies = [
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "jballerina.java"},
@@ -150,7 +150,7 @@ modules = [
 [[package]]
 org = "ballerina"
 name = "observe"
-version = "1.7.0"
+version = "1.6.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -158,7 +158,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "persist"
-version = "1.6.0"
+version = "1.7.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -319,7 +319,7 @@ modules = [
 
 [[package]]
 org = "demo_epfl"
-name = "poc_step_1"
+name = "poc_step1"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "constraint"},
@@ -335,13 +335,7 @@ dependencies = [
 	{org = "ballerinax", name = "persist.sql"}
 ]
 modules = [
-	{org = "demo_epfl", packageName = "poc_step_1", moduleName = "poc_step_1"},
-	{org = "demo_epfl", packageName = "poc_step_1", moduleName = "poc_step_1.epfl"}
+	{org = "demo_epfl", packageName = "poc_step1", moduleName = "poc_step1"},
+	{org = "demo_epfl", packageName = "poc_step1", moduleName = "poc_step1.epfl"}
 ]
-
-[[tool]]
-id = "persist"
-org = "ballerina"
-name = "tool.persist"
-version = "1.8.0"
 

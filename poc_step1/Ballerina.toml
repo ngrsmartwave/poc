@@ -1,6 +1,6 @@
 [package]
 org = "demo_epfl"
-name = "poc_step_1"
+name = "poc_step1"
 version = "0.1.0"
 distribution = "2201.13.1"
 
@@ -10,12 +10,4 @@ observabilityIncluded = true
 [[platform.java21.dependency]]
 groupId = "io.ballerina.stdlib"
 artifactId = "persist.sql-native"
-version = "1.6.0"
-
-[[tool.persist]]
-id = "generate-db-client"
-targetModule = "poc_step_1.epfl"
-options.datastore = "mysql"
-filePath = "persist/model.bal"
-
-
+version = "1.7.2"
