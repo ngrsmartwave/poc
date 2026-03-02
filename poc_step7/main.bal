@@ -1,11 +1,11 @@
-//import poc_step1.epfl;
+//import poc_step7.epfl;
 //import ballerina/constraint;
 
 
 import ballerina/data.csv;
-import ballerina/ftp;
 import ballerina/log;
 import ballerina/time;
+import ballerina/ftp;
 
 ProcessingReport report ={insertions: 0, validRows: 0, deactivations: 0, totalCsvRows: 0, startTime: "", endTime: "", updates: 0, errors: 0, invalidRows: 0};
 
@@ -37,6 +37,11 @@ service on ftpListenerCVS {
         } on fail error e {
             log:printError(string `Error renaming file : ${fileInfo.pathDecoded+".bak"} cause : ${e.toString()} `);
         }
+        do{
+            check populateBirthDate();
+        } on fail error e {
+            log:printError(string `Error populateBirthDate cause : ${e.toString()} `);
+        }
         report.totalCsvRows=students[0].length();
         foreach string[] student in students {
             string[][] studentArray = [student];
@@ -45,7 +50,7 @@ service on ftpListenerCVS {
                 Student[] csvRecords = check csv:parseList(studentArray, {customHeaders: header});
                 log:printInfo(string `Parsed Records  : ${csvRecords.toString()} `);
                 Student csvStudent = csvRecords[0];
-                check functionStudentStep1(csvStudent);
+                check functionStudentStep6(csvStudent);
             } on fail error e {
                 report.invalidRows+=1;
                 log:printError(string `Error processing student  : ${studentArray.toString()} ${e.toString()} `);
