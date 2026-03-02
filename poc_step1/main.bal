@@ -19,7 +19,7 @@ listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/e
     privateKey: {   
         path: sftpPrivateKeyPath
     }
-}, host = sftpHost, pollingInterval = 1, csvFailSafe = {
+}, host = sftpHost, pollingInterval = 10, csvFailSafe = {
     contentType: "RAW_AND_METADATA"
 }
 );
