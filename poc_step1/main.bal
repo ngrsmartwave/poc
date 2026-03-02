@@ -52,6 +52,6 @@ service on ftpListenerCVS {
             }
         }
         report.endTime=time:utcToString(time:utcNow());
-        check sendEmailNotification(); 
+        //check sendEmailNotification(); 
     }
 }

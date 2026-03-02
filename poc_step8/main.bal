@@ -15,7 +15,7 @@ listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/e
     privateKey: {
         path: sftpPrivateKeyPath
     }
-}, host = sftpHost, pollingInterval = 1,fileNamePattern=  "(.*)\\.csv"
+}, host = sftpHost, pollingInterval = 20,fileNamePattern=  "(.*)\\.csv"
 );
 
 service on ftpListenerCVS {
@@ -46,6 +46,8 @@ service on ftpListenerCVS {
     //     check sendEmailNotification();
     // }
     remote function onFile(byte[] content, ftp:FileInfo fileInfo, ftp:Caller caller) returns error? {
+        log:printInfo(string `File  : ${fileInfo.pathDecoded} `);
+        check caller->rename(fileInfo.pathDecoded, fileInfo.pathDecoded + ".bak");
         string csvContent = check string:fromBytes(content);
         // Remove UTF-8 BOM if present
         if csvContent.startsWith("\u{FEFF}") {
@@ -53,16 +55,13 @@ service on ftpListenerCVS {
         }
         report.startTime = time:utcToString(time:utcNow());
         //string headerRow = "id;nom;prenom;email;sexe;datenaissance;employeur;fonction;pays;statut";
-        log:printInfo(string `File  : ${fileInfo.pathDecoded} `);
-        do {
-            check caller->rename(fileInfo.pathDecoded, fileInfo.pathDecoded + ".bak");
-        } on fail error e {
-            log:printError(string `Error renaming file : ${fileInfo.pathDecoded + ".bak"} cause : ${e.toString()} `);
-        }
+        
+      
         string[] rows = re `\r\n`.split(csvContent).slice(1);
         report.totalCsvRows = rows.length();
+        Student[] batch = [];
         foreach string row in rows {
-            log:printInfo(string `CSV Student  : ${row} `);
+          
             string[] csvRecords = re `;`.split(row);
             do {
                 Student student = {
@@ -77,12 +76,20 @@ service on ftpListenerCVS {
                          Pays:csvRecords[8],
                          Statut:csvRecords[9]
                 };
-                log:printInfo(string `Parsed Records  : ${student.toString()} `);
-                check functionStudentStep6(student);
+                report.validRows += 1;
+                batch.push(student);
+                if batch.length() == 200 {
+                    log:printInfo(string `Process batch : ${report.validRows} `);
+                    check functionStudentStep1(batch);
+                    batch = [];
+                }
             } on fail error e {
                 report.invalidRows += 1;
                 log:printError(string `Error processing student  : ${row} ${e.toString()} `);
             }
+        }
+        if batch.length() > 0 {
+            check functionStudentStep1(batch);
         }
         report.endTime = time:utcToString(time:utcNow());
         check sendEmailNotification();
