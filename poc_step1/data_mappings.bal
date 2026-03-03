@@ -8,7 +8,7 @@ function transformCVStoDB(Student csv) returns epfl:EtudiantInsert => {
     actif: csv.actif
 };
 
-function transformCVStoDBUpdate(Student csv) returns epfl:EtudiantUpdate=> {
+function transformCVStoDBUpdate(Student csv) returns epfl:EtudiantUpdate => {
     nom: csv.nom,
     prenom: csv.prenom,
     email: csv.email,
