@@ -27,7 +27,8 @@ service on ftpListenerCVS {
         fileNamePattern: ".*\\.csv"
     }
     remote function onFileCsv(string[][] students, ftp:FileInfo fileInfo, ftp:Caller caller) returns error? {
-        report.startTime = time:utcToString(time:utcNow());
+        time:Utc startTime = time:utcNow();
+        report.startTime = time:utcToString(startTime);
         string[] header = ["id", "nom", "prenom", "email", "actif"];
         log:printInfo(string `File  : ${fileInfo.pathDecoded} `);
         do {
@@ -50,6 +51,8 @@ service on ftpListenerCVS {
                 log:printError(string `Error processing student  : ${studentArray.toString()} ${e.toString()} `);
             }
         }
+        time:Seconds duration = time:utcDiffSeconds(time:utcNow(),startTime);
+        log:printInfo(string `duration  : ${duration.toString()} sec`);
         report.endTime = time:utcToString(time:utcNow());
         //check sendEmailNotification(); 
     }
