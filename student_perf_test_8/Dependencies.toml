@@ -83,9 +83,6 @@ dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "lang.value"}
 ]
-modules = [
-	{org = "ballerina", packageName = "io", moduleName = "io"}
-]
 
 [[package]]
 org = "ballerina"
@@ -253,7 +250,6 @@ dependencies = [
 	{org = "ballerina", name = "data.csv"},
 	{org = "ballerina", name = "email"},
 	{org = "ballerina", name = "ftp"},
-	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "sql"},
 	{org = "ballerina", name = "time"},

@@ -4,6 +4,7 @@ import ballerina/sql;
 import ballerina/time;
 import ballerina/ftp;
 import ballerina/email;
+import ballerinax/mysql;
 
 function downloadFile(string filePath) returns byte[]|error {
     ftp:Client sftpClient = check getSftpClient();
@@ -70,10 +71,11 @@ function processPerformanceFile(byte[] csvBytes) returns error? {
         where a.Id != 0 && a.Nom != ""
         select `INSERT INTO etudiants (id, nom, prenom, email, actif) VALUES (${a.Id}, ${a.Nom}, ${a.Prenom}, ${a.Email}, ${a.Statut == "TRUE"})`;
 
-    // Execute batch insert
+    // Execute batch insert with a fresh connection
     int totalInserted = 0;
     int errors = 0;
 
+    mysql:Client mysqlClient = check getMysqlClient();
     sql:ExecutionResult[]|error result = mysqlClient->batchExecute(insertQueries);
     if result is sql:ExecutionResult[] {
         totalInserted = result.length();
@@ -106,11 +108,6 @@ function processPerformanceFile(byte[] csvBytes) returns error? {
 }
 
 function sendPerformanceEmail(string report) returns error? {
-    if !enableEmail {
-        log:printInfo("Email disabled — skipping");
-        return;
-    }
-
     email:SmtpClient smtp = check new (
         host = smtpHost, username = smtpUser, password = smtpPassword,
         clientConfig = {port: smtpPort, security: email:START_TLS_AUTO}

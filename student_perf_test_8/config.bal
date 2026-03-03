@@ -17,4 +17,3 @@ configurable int smtpPort = 465;
 configurable string smtpUser = ?;
 configurable string smtpPassword = ?;
 configurable string recipientEmail = ?;
-configurable boolean enableEmail = false;
