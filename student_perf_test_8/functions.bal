@@ -66,18 +66,19 @@ function processPerformanceFile(byte[] csvBytes) returns error? {
 
     // Build all parameterized queries (skip alumni with empty or null Id)
     sql:ParameterizedQuery[] insertQueries = from AlumniCsv a in alumni
-        where a.Id != 0 && a.Nom!=""
-        select `INSERT INTO etudiants (id, nom, prenom, email, actif) VALUES (${a.Id}, ${a.Nom}, ${a.Prenom}, ${a.Email},${(a.Statut=="TRUE")})`;
+        where a.Id != 0 && a.Nom != ""
+        select `INSERT INTO etudiants (id, nom, prenom, email, actif) VALUES (${a.Id}, ${a.Nom}, ${a.Prenom}, ${a.Email}, ${a.Statut == "TRUE"})`;
 
-    // Execute in batches of 100
+    // Execute batch insert
     int totalInserted = 0;
     int errors = 0;
 
     sql:ExecutionResult[]|error result = mysqlClient->batchExecute(insertQueries);
     if result is sql:ExecutionResult[] {
-        totalInserted += result.length();
+        totalInserted = result.length();
     } else {
-        log:printError(string `Batch error : ${result.message()}`);
+        log:printError(string `Batch error: ${result.message()}`);
+        errors = insertQueries.length();
     }
 
     time:Utc endTime = time:utcNow();
