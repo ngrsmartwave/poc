@@ -1,6 +1,5 @@
 import ballerina/log;
 import ballerina/ftp;
-import ballerina/io;
 
 function init() returns error? {
     log:printInfo("=== EPFL Performance Test (Step 8) ===");
