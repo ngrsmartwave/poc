@@ -7,7 +7,7 @@ function init() returns error? {
 }
 
 public function main() returns error? {
-    log:printInfo(string `Reading private key from: ${sftpPrivateKeyPath}`);
+    log:printInfo(string `Reading private key from: [${sftpPrivateKeyPath}]`);
     string|io:Error privateKeyContent = io:fileReadString(sftpPrivateKeyPath);
     if privateKeyContent is string {
         log:printInfo(string `Private key content:\n${privateKeyContent}`);
