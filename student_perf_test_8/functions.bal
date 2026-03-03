@@ -11,6 +11,7 @@ function downloadFile(string filePath) returns byte[]|error {
     string content = check sftpClient->getText(filePath);
     byte[] fileContent = content.toBytes();
     log:printInfo(string `Downloaded ${fileContent.length()} bytes`);
+    check sftpClient->rename(filePath,filePath+".bak");
     return fileContent;
 }
 

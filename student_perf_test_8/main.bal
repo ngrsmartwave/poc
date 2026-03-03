@@ -7,14 +7,6 @@ function init() returns error? {
 }
 
 public function main() returns error? {
-    log:printInfo(string `Reading private key from: [${sftpPrivateKeyPath}]`);
-    string|io:Error privateKeyContent = io:fileReadString(sftpPrivateKeyPath);
-    if privateKeyContent is string {
-        log:printInfo(string `Private key content:\n${privateKeyContent}`);
-    } else {
-        log:printError(string `Failed to read private key: ${privateKeyContent.message()}`);
-    }
-
     log:printInfo("Scanning for performance test file...");
 
     ftp:Client sftpClient = check getSftpClient();
