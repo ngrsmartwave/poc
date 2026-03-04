@@ -33,8 +33,8 @@ service on ftpListenerCVS {
         } on fail error e {
             log:printError(string `Error renaming file : ${fileInfo.pathDecoded + ".bak"} cause : ${e.toString()} `);
         }
-        report.totalCsvRows = students[0].length();
         foreach string[] student in students {
+            report.totalCsvRows += 1;
             string[][] studentArray = [student];
             log:printInfo(string `CSV Student  : ${student.toString()} `);
             do {

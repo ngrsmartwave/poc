@@ -347,7 +347,7 @@ modules = [
 
 [[package]]
 org = "demo_epfl"
-name = "poc_step1"
+name = "poc_step6"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "constraint"},
@@ -365,7 +365,7 @@ dependencies = [
 	{org = "ballerinax", name = "persist.sql"}
 ]
 modules = [
-	{org = "demo_epfl", packageName = "poc_step1", moduleName = "poc_step1"},
-	{org = "demo_epfl", packageName = "poc_step1", moduleName = "poc_step1.epfl"}
+	{org = "demo_epfl", packageName = "poc_step6", moduleName = "poc_step6"},
+	{org = "demo_epfl", packageName = "poc_step6", moduleName = "poc_step6.epfl"}
 ]
 
