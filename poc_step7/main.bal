@@ -10,7 +10,7 @@ import ballerina/ftp;
 ProcessingReport report ={insertions: 0, validRows: 0, deactivations: 0, totalCsvRows: 0, startTime: "", endTime: "", updates: 0, errors: 0, invalidRows: 0};
 
 
-listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/ec2-user/csv", port = 22, auth = {
+listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/ec2-user/csv/step7", port = 22, auth = {
 
     credentials: {
         username: sftpUser,

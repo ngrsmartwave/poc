@@ -4,7 +4,7 @@ import ballerina/log;
 import ballerina/time;
 
 
-listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/ec2-user/csv", port = 22, auth = {
+listener ftp:Listener ftpListenerCVS = new (protocol = ftp:SFTP, path = "/home/ec2-user/csv/step3", port = 22, auth = {
 
     credentials: {
         username: sftpUser,
