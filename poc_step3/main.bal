@@ -1,6 +1,3 @@
-//import poc_step1.epfl;
-//import ballerina/constraint;
-
 import ballerina/data.csv;
 import ballerina/ftp;
 import ballerina/log;
@@ -41,7 +38,7 @@ service on ftpListenerCVS {
                 Student[] csvRecords = check csv:parseList(studentArray, {customHeaders: header});
                 log:printInfo(string `Parsed Records  : ${csvRecords.toString()} `);
                 Student csvStudent = csvRecords[0];
-                check step1Function(csvStudent);
+                check step3Function(csvStudent);
 
             } on fail error e {
                 log:printError(string `Error processing student  : ${studentArray.toString()} ${e.toString()} `);
