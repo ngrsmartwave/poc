@@ -10,7 +10,16 @@ function getMysqlClient() returns mysql:Client|error {
         port = mysqlPort,
         user = mysqlUser,
         password = mysqlPassword,
-        database = mysqlDatabase
+        database = mysqlDatabase,
+        options = {
+            connectTimeout: 30.0,
+            socketTimeout: 300.0
+        },
+        connectionPool = {
+            maxOpenConnections: 5,
+            maxConnectionLifeTime: 1800.0,
+            minIdleConnections: 1
+        }
     );
 }
 
