@@ -12,11 +12,10 @@ function getMysqlClient() returns mysql:Client|error {
         password = mysqlPassword,
         database = mysqlDatabase,
         options = {
-            connectTimeout: 30.0,
-            socketTimeout: 300.0
+            connectTimeout: 30.0
         },
         connectionPool = {
-            maxOpenConnections: 5,
+            maxOpenConnections: 10,
             maxConnectionLifeTime: 1800.0,
             minIdleConnections: 1
         }
