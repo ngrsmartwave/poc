@@ -71,25 +71,17 @@ function processPerformanceFile(byte[] csvBytes) returns error? {
         where a.Id != 0 && a.Nom != ""
         select `INSERT INTO etudiants (id, nom, prenom, email, actif) VALUES (${a.Id}, ${a.Nom}, ${a.Prenom}, ${a.Email}, ${a.Statut == "TRUE"})`;
 
-    // Execute batch insert in chunks of 1000
+    // Execute batch insert with a fresh connection
     int totalInserted = 0;
     int errors = 0;
-    int batchSize = 1000;
 
     mysql:Client mysqlClient = check getMysqlClient();
-    int total = insertQueries.length();
-    int i = 0;
-    while i < total {
-        int end = i + batchSize < total ? i + batchSize : total;
-        sql:ParameterizedQuery[] chunk = insertQueries.slice(i, 'end);
-        sql:ExecutionResult[]|error result = mysqlClient->batchExecute(chunk);
-        if result is sql:ExecutionResult[] {
-            totalInserted += result.length();
-        } else {
-            log:printError(string `Batch error on chunk [${i}..${(end - 1)}]: ${result.message()}`);
-            errors += chunk.length();
-        }
-        i = end;
+    sql:ExecutionResult[]|error result = mysqlClient->batchExecute(insertQueries);
+    if result is sql:ExecutionResult[] {
+        totalInserted = result.length();
+    } else {
+        log:printError(string `Batch error: ${result.message()}`);
+        errors = insertQueries.length();
     }
 
     time:Utc endTime = time:utcNow();
